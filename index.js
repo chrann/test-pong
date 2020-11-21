@@ -107,9 +107,8 @@
 
     /** ボール */
     class Ball extends ObjInGame {
-      
     }
-1;
+
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**

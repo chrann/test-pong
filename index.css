@@ -1,3 +1,34 @@
-body {
-    font-size: 15pt;
+/** index.css デフォルト */
+
+/** margin, padding初期化 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/** 背景色等 */
+#body {
+    background: black;
+    color: white;
+}
+
+/** キャンバスの位置調整用ラッパー */
+#main-wrapper {
+    display: flex;
+    width: 100vw;
+    min-height: 50vh;
+    max-height: 100vh;
+    /* 左右: 中央 */
+    justify-content: center;
+    /* 上下: 下 */
+    align-items: flex-end;
+}
+
+/** キャンバス */
+#main {
+    display: block;
+    width: calc(640px * 1);
+    height: calc(520px * 1);
+    background: white;
+    color: black;
 }

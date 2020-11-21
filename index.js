@@ -106,9 +106,8 @@
     }
 
     /** ボール */
-    class Ball extends ObjInGame {
-    }
-console.log('qq11')
+    class Ball extends ObjInGame {}
+    
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**

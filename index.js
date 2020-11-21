@@ -109,7 +109,7 @@
     class Ball extends ObjInGame {
       
     }
-log('testee');
+1;
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**

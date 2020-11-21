@@ -106,8 +106,10 @@
     }
 
     /** ボール */
-    class Ball extends ObjInGame {}
-
+    class Ball extends ObjInGame {
+      
+    }
+log('testee');
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**

@@ -16,7 +16,7 @@
 #main-wrapper {
     display: flex;
     width: 100vw;
-    min-height: 50vh;
+    min-height: 10vh;
     max-height: 100vh;
     /* 左右: 中央 */
     justify-content: center;

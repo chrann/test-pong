@@ -107,7 +107,7 @@
 
     /** ボール */
     class Ball extends ObjInGame {}
-    
+
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**
@@ -124,6 +124,8 @@
         this.preNow = performance.now();
         /** 1秒間に何回描画できているか(Frame Per Sec.) */
         this.FPS = 0;
+        /** FPSの有効桁数(2 なら x.xx に丸める) */
+        this.FpsEffectiveDigit = 2;
         /** ゲームタイトル */
         this.title = 'ブロック崩し(Breakout) プレーン';
         /** タイトルバー(キャンバス上部でタイトルとFPSを表示) */
@@ -223,7 +225,8 @@
       /** ゲームループ(1F) */
       loop() {
         requestAnimationFrame((t) => {
-          this.FPS = Math.round(100000 / (t - this.preNow)) / 100;
+          const efDig = Math.pow(10, this.FpsEffectiveDigit);
+          this.FPS = Math.round(1000 * efDig / (t - this.preNow)) / efDig;
           this.preNow = t;
           // console.log(this.FPS);
 

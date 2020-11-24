@@ -28,13 +28,30 @@
       msgArea.insertAdjacentElement('beforeend', p);
     };
 
-    /**
-     * レイアウト用オブジェクト
-     *
-     * タイプ(四角形(rect), , 正円弧(arc), 制御点と曲率指定曲線(arcTo), 3次ベジエ曲線(bezierCurveTo))
-     * 『キャンバス』左上を基準として、自身の左/上/右/下位置、fill(塗り潰し)を使うか、stroke(線)を使うか
-     */
-    class LayoutObject {}
+    /** キー押下管理 true ならば押されている */
+    const pressed = {
+      left: false
+      ,right: false
+      ,up: false
+      ,down: false
+      ,Z: false
+      ,X: false
+      ,C: false
+      ,V: false
+      ,SPACE: false
+      ,Enter: false
+    };
+
+    /** キー押下状態変更(押下) */
+    window.addEventListener('keydown', (ev)=>{
+      const key = ev.key;
+      console.debug(key);
+      if(key === 'ArrowLeft' || key === 'Left') {
+        pressed.left = true;
+      }
+      // キーチェック続ける
+    });
+    /** キー押下状態変更(押下解除) */
 
     /**
      * ゲーム内オブジェクト

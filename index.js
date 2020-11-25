@@ -30,28 +30,118 @@
 
     /** キー押下管理 true ならば押されている */
     const pressed = {
-      left: false
-      ,right: false
-      ,up: false
-      ,down: false
-      ,Z: false
-      ,X: false
-      ,C: false
-      ,V: false
-      ,SPACE: false
-      ,Enter: false
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      Z: false,
+      X: false,
+      C: false,
+      V: false,
+      SPACE: false,
+      Enter: false
     };
 
     /** キー押下状態変更(押下) */
-    window.addEventListener('keydown', (ev)=>{
+    window.addEventListener('keydown', (ev) => {
       const key = ev.key;
       console.debug(key);
-      if(key === 'ArrowLeft' || key === 'Left') {
+      if (key === 'ArrowLeft' || key === 'Left') {
         pressed.left = true;
+        return;
       }
-      // キーチェック続ける
+      if (key === 'ArrowRight' || key === 'Right') {
+        pressed.right = true;
+        return;
+      }
+      if (key === 'ArrowUp' || key === 'Up') {
+        pressed.up = true;
+        return;
+      }
+      if (key === 'ArrowDown' || key === 'Down') {
+        pressed.down = true;
+        return;
+      }
+      if (key === 'z' || key === 'Z') {
+        pressed.Z = true;
+        return;
+      }
+      if (key === 'x' || key === 'X') {
+        pressed.X = true;
+        return;
+      }
+      if (key === 'c' || key === 'C') {
+        pressed.C = true;
+        return;
+      }
+      if (key === 'v' || key === 'V') {
+        pressed.V = true;
+        return;
+      }
+      if (key === ' ' || key === '　') {
+        pressed.SPACE = true;
+        return;
+      }
+      if (key === 'Enter') {
+        pressed.Enter = true;
+        return;
+      }
     });
+
     /** キー押下状態変更(押下解除) */
+    window.addEventListener('keyup', (ev) => {
+      const key = ev.key;
+      if (key === 'ArrowLeft' || key === 'Left') {
+        console.debug('pressed.left = false;');
+        pressed.left = false;
+        return;
+      }
+      if (key === 'ArrowRight' || key === 'Right') {
+        console.debug('pressed.right = false;');
+        pressed.right = false;
+        return;
+      }
+      if (key === 'ArrowUp' || key === 'Up') {
+        console.debug('pressed.up = false;');
+        pressed.up = false;
+        return;
+      }
+      if (key === 'ArrowDown' || key === 'Down') {
+        console.debug('pressed.down = false;');
+        pressed.down = false;
+        return;
+      }
+      if (key === 'z' || key === 'Z') {
+        console.debug('pressed.Z = false;');
+        pressed.Z = false;
+        return;
+      }
+      if (key === 'x' || key === 'X') {
+        console.debug('pressed.X = false;');
+        pressed.X = false;
+        return;
+      }
+      if (key === 'c' || key === 'C') {
+        console.debug('pressed.C = false;');
+        pressed.C = false;
+        return;
+      }
+      if (key === 'v' || key === 'V') {
+        console.debug('pressed.V = false;');
+        pressed.V = false;
+        return;
+      }
+      if (key === ' ' || key === '　') {
+        console.debug('pressed.SPACE = false;');
+        pressed.SPACE = false;
+        return;
+      }
+      if (key === 'Enter') {
+        console.debug('pressed.Enter = false;');
+        pressed.Enter = false;
+        return;
+      }
+    })
 
     /**
      * ゲーム内オブジェクト
@@ -124,9 +214,9 @@
 
     /** ボール */
     class Ball extends ObjInGame {
-      
+
     }
-1;
+    1;
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**

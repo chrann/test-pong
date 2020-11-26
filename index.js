@@ -200,6 +200,24 @@
         /** @type {integer} 重さ */
         this.weight = o.weight;
       }
+
+      /**
+       * オブジェクト描画
+       * @param {CanvasRenderingContext2D} ctx
+       */
+      draw(ctx) {
+        const obj = this;
+        ctx.beginPath();
+        ctx.fillStyle = obj.background;
+        ctx.rect(obj.left, obj.top, obj.right - obj.left, obj.bottom - obj.top);
+        ctx.fill();
+        if (obj.border) {
+          ctx.strokeStyle = obj.border.color || 'rgba(0,0,0,1.0)';
+          ctx.lineWidth = obj.border.width || 1;
+          ctx.stroke();
+        }
+
+      }
     }
 
     /** 操作バー　自分 */
@@ -207,9 +225,12 @@
       /** @param {MyBar} bar */
       constructor(bar) {
         super(bar);
+        bar ? bar : bar = new ObjInGame();
         /** @type {boolean} ボールを保持しているか */
-        this.hasBall = bar.hasBall;
+        this.hasBall = bar.hasBall || false;
       }
+
+
     }
 
     /** ボール */
@@ -315,6 +336,8 @@
           top: 20,
           bottom: 520 - 20,
         };
+        
+        this.myBar = new MyBar();
 
         setTimeout(() => {
           log('ゲームクラス load 完了');
@@ -328,6 +351,7 @@
       draw() {
         this.TitleBar.draw();
         this.StatusBar.draw();
+        this.myBar.draw(this.ctx);
       }
       /** ゲームループ(1F) */
       loop() {

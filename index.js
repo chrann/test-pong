@@ -15,6 +15,50 @@
       return;
     }
 
+    // スタイル指定サイズ初期化
+    canvas.style.width = canvas.width + 'px';
+    canvas.style.height = canvas.height + 'px';
+    /** キャンバスのアスペクト比 */
+    const aspect = canvas.width / canvas.height;
+    /** bodyElement */
+    const body = document.getElementById('body') || document.getElementsByTagName('body')[0];
+    /** キャンバスサイズを画面サイズに合わせて拡大縮小(基本的に「全て見えない事が悪」と捉えて、縮小の方が優先度が高い) */
+    const sizeScaling = () => {
+      {
+        const canvasStyleWidth = Number(canvas.style.width.replace('px', ''));
+        if (window.innerWidth > canvasStyleWidth) {
+          // 画面幅がキャンバスの幅を超えるなら、拡大するかも
+          if (window.innerWidth < canvas.width) {
+            // 画面幅がキャンバスの初期幅未満なら、キャンバス幅を画面幅まで拡大
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerWidth / aspect + 'px';
+          } else if (window.innerWidth < canvas.width * 1.5) {
+            // 画面幅がキャンバスの初期幅以上、初期幅の1.5倍未満なら、キャンバス幅を初期幅まで拡大
+            canvas.style.width = canvas.width + 'px';
+            canvas.style.height = canvas.height + 'px';
+          } else {
+            // 画面幅がキャンバスの初期幅の1.5倍を超えるなら、キャンバス幅を画面幅の1/1.5まで拡大
+            canvas.style.width = window.innerWidth / 1.5 + 'px';
+            canvas.style.height = window.innerWidth / 1.5 / aspect + 'px';
+          }
+        }
+      }
+      // 画面幅よりキャンバスが大きければ画面幅に合わせて縮小
+      if (window.innerWidth < Number(canvas.style.width.replace('px', ''))) {
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerWidth / aspect + 'px';
+      }
+      // 画面高さよりキャンバスが大きければ画面高さに合わせて縮小
+      if (window.innerHeight < Number(canvas.style.height.replace('px', ''))) {
+        canvas.style.width = window.innerHeight * aspect + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+      }
+    };
+    // ひとまず初期化呼び出し
+    sizeScaling();
+    // ウィンドウサイズ変更時に再度呼び出し
+    window.addEventListener('resize', sizeScaling);
+
     /** ログエリア */
     const msgArea = document.getElementById('msg-area');
     /** @param {string} msg 指定文字列と日時情報を、コンソールとログエリアに出力する。 */
@@ -237,7 +281,7 @@
     class Ball extends ObjInGame {
 
     }
-    1;
+
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
       /**
@@ -254,6 +298,8 @@
         this.preNow = performance.now();
         /** 1秒間に何回描画できているか(Frame Per Sec.) */
         this.FPS = 0;
+        /** FPSの有効桁数(2 なら x.xx に丸める) */
+        this.FpsEffectiveDigit = 2;
         /** ゲームタイトル */
         this.title = 'ブロック崩し(Breakout) プレーン';
         /** タイトルバー(キャンバス上部でタイトルとFPSを表示) */
@@ -356,7 +402,8 @@
       /** ゲームループ(1F) */
       loop() {
         requestAnimationFrame((t) => {
-          this.FPS = Math.round(100000 / (t - this.preNow)) / 100;
+          const efDig = Math.pow(10, this.FpsEffectiveDigit);
+          this.FPS = Math.round((1000 * efDig) / (t - this.preNow)) / efDig;
           this.preNow = t;
           // console.log(this.FPS);
 

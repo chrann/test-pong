@@ -15,9 +15,6 @@
 /** キャンバスの位置調整用flex-container */
 #main-wrapper {
     display: flex;
-    width: 100vw;
-    min-height: 50vh;
-    max-height: 100vh;
     /* 左右: 中央 */
     justify-content: center;
     /* 上下: 下 */
@@ -27,8 +24,6 @@
 /** キャンバス */
 #main {
     display: block;
-    width: calc(640px * 1);
-    height: calc(520px * 1);
     background: white;
     color: black;
 }

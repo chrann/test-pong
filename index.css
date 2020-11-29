@@ -12,7 +12,7 @@
     color: white;
 }
 
-/** キャンバスの位置調整用ラッパー */
+/** キャンバスの位置調整用flex-container */
 #main-wrapper {
     display: flex;
     /* 左右: 中央 */

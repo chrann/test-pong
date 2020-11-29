@@ -72,13 +72,120 @@
       msgArea.insertAdjacentElement('beforeend', p);
     };
 
-    /**
-     * レイアウト用オブジェクト
-     *
-     * タイプ(四角形(rect), , 正円弧(arc), 制御点と曲率指定曲線(arcTo), 3次ベジエ曲線(bezierCurveTo))
-     * 『キャンバス』左上を基準として、自身の左/上/右/下位置、fill(塗り潰し)を使うか、stroke(線)を使うか
-     */
-    class LayoutObject {}
+    /** キー押下管理 true ならば押されている */
+    const pressed = {
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      Z: false,
+      X: false,
+      C: false,
+      V: false,
+      SPACE: false,
+      Enter: false
+    };
+
+    /** キー押下状態変更(押下) */
+    window.addEventListener('keydown', (ev) => {
+      const key = ev.key;
+      console.debug(key);
+      if (key === 'ArrowLeft' || key === 'Left') {
+        pressed.left = true;
+        return;
+      }
+      if (key === 'ArrowRight' || key === 'Right') {
+        pressed.right = true;
+        return;
+      }
+      if (key === 'ArrowUp' || key === 'Up') {
+        pressed.up = true;
+        return;
+      }
+      if (key === 'ArrowDown' || key === 'Down') {
+        pressed.down = true;
+        return;
+      }
+      if (key === 'z' || key === 'Z') {
+        pressed.Z = true;
+        return;
+      }
+      if (key === 'x' || key === 'X') {
+        pressed.X = true;
+        return;
+      }
+      if (key === 'c' || key === 'C') {
+        pressed.C = true;
+        return;
+      }
+      if (key === 'v' || key === 'V') {
+        pressed.V = true;
+        return;
+      }
+      if (key === ' ' || key === '　') {
+        pressed.SPACE = true;
+        return;
+      }
+      if (key === 'Enter') {
+        pressed.Enter = true;
+        return;
+      }
+    });
+
+    /** キー押下状態変更(押下解除) */
+    window.addEventListener('keyup', (ev) => {
+      const key = ev.key;
+      if (key === 'ArrowLeft' || key === 'Left') {
+        console.debug('pressed.left = false;');
+        pressed.left = false;
+        return;
+      }
+      if (key === 'ArrowRight' || key === 'Right') {
+        console.debug('pressed.right = false;');
+        pressed.right = false;
+        return;
+      }
+      if (key === 'ArrowUp' || key === 'Up') {
+        console.debug('pressed.up = false;');
+        pressed.up = false;
+        return;
+      }
+      if (key === 'ArrowDown' || key === 'Down') {
+        console.debug('pressed.down = false;');
+        pressed.down = false;
+        return;
+      }
+      if (key === 'z' || key === 'Z') {
+        console.debug('pressed.Z = false;');
+        pressed.Z = false;
+        return;
+      }
+      if (key === 'x' || key === 'X') {
+        console.debug('pressed.X = false;');
+        pressed.X = false;
+        return;
+      }
+      if (key === 'c' || key === 'C') {
+        console.debug('pressed.C = false;');
+        pressed.C = false;
+        return;
+      }
+      if (key === 'v' || key === 'V') {
+        console.debug('pressed.V = false;');
+        pressed.V = false;
+        return;
+      }
+      if (key === ' ' || key === '　') {
+        console.debug('pressed.SPACE = false;');
+        pressed.SPACE = false;
+        return;
+      }
+      if (key === 'Enter') {
+        console.debug('pressed.Enter = false;');
+        pressed.Enter = false;
+        return;
+      }
+    })
 
     /**
      * ゲーム内オブジェクト
@@ -137,6 +244,24 @@
         /** @type {integer} 重さ */
         this.weight = o.weight;
       }
+
+      /**
+       * オブジェクト描画
+       * @param {CanvasRenderingContext2D} ctx
+       */
+      draw(ctx) {
+        const obj = this;
+        ctx.beginPath();
+        ctx.fillStyle = obj.background;
+        ctx.rect(obj.left, obj.top, obj.right - obj.left, obj.bottom - obj.top);
+        ctx.fill();
+        if (obj.border) {
+          ctx.strokeStyle = obj.border.color || 'rgba(0,0,0,1.0)';
+          ctx.lineWidth = obj.border.width || 1;
+          ctx.stroke();
+        }
+
+      }
     }
 
     /** 操作バー　自分 */
@@ -144,13 +269,18 @@
       /** @param {MyBar} bar */
       constructor(bar) {
         super(bar);
+        bar ? bar : bar = new ObjInGame();
         /** @type {boolean} ボールを保持しているか */
-        this.hasBall = bar.hasBall;
+        this.hasBall = bar.hasBall || false;
       }
+
+
     }
 
     /** ボール */
-    class Ball extends ObjInGame {}
+    class Ball extends ObjInGame {
+
+    }
 
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
@@ -252,6 +382,8 @@
           top: 20,
           bottom: 520 - 20,
         };
+        
+        this.myBar = new MyBar();
 
         setTimeout(() => {
           log('ゲームクラス load 完了');
@@ -265,6 +397,7 @@
       draw() {
         this.TitleBar.draw();
         this.StatusBar.draw();
+        this.myBar.draw(this.ctx);
       }
       /** ゲームループ(1F) */
       loop() {

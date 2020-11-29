@@ -83,7 +83,7 @@
       C: false,
       V: false,
       SPACE: false,
-      Enter: false
+      Enter: false,
     };
 
     /** キー押下状態変更(押下) */
@@ -185,7 +185,7 @@
         pressed.Enter = false;
         return;
       }
-    })
+    });
 
     /**
      * ゲーム内オブジェクト
@@ -260,7 +260,6 @@
           ctx.lineWidth = obj.border.width || 1;
           ctx.stroke();
         }
-
       }
     }
 
@@ -269,18 +268,14 @@
       /** @param {MyBar} bar */
       constructor(bar) {
         super(bar);
-        bar ? bar : bar = new ObjInGame();
+        bar ? bar : (bar = new ObjInGame());
         /** @type {boolean} ボールを保持しているか */
         this.hasBall = bar.hasBall || false;
       }
-
-
     }
 
     /** ボール */
-    class Ball extends ObjInGame {
-
-    }
+    class Ball extends ObjInGame {}
 
     /** ゲーム本体(キャンバスやFPS、ゲームループ等を管理) */
     class Game {
@@ -382,7 +377,7 @@
           top: 20,
           bottom: 520 - 20,
         };
-        
+
         this.myBar = new MyBar();
 
         setTimeout(() => {
